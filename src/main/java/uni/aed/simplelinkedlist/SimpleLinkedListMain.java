@@ -16,7 +16,7 @@ public class SimpleLinkedListMain {
         lista.addLast(30);
         lista.addFirst(40);
         //lista.addFirst(50);
-        
+        System.out.println("TRABAJANDO CON LISTAS SIMPLEMENTE ENLAZADAS\n");
         System.out.println("Visualizando el contenido de la lista");
         System.out.println("La lista contiene "+lista.size()+" elementos");
         System.out.println("Visualizando el contenido de la lista");
