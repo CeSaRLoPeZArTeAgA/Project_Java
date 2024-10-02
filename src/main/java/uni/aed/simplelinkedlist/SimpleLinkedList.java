@@ -103,7 +103,7 @@ public class SimpleLinkedList {
     public int size(){
         return lenght;
     }
-    //plotea valores de lista
+    //plotea valores de lista 
     @Override
     public String toString() {
         StringBuilder str=new StringBuilder();
@@ -117,6 +117,7 @@ public class SimpleLinkedList {
         return str.toString();
     }
     
+    //para plotear la lista en forma inversa
     public String displayReverse(){
         StringBuilder str=new StringBuilder();
         Nodo temp=head;

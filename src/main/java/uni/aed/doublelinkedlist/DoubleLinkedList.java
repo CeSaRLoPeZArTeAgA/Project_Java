@@ -1,17 +1,16 @@
 package uni.aed.doublelinkedlist;
 public class DoubleLinkedList {
-    private DNodo head;
-    private DNodo ultimo;
-    private int lenght=0;
+    private DNodo head;//puntero cabezera
+    private DNodo ultimo;//puntero ultimo
+    private int lenght=0;//long de la lista, inicializada en 0
 
+    //entrega puntero que se le indica en pos
     public DNodo getNodo(int pos) {
         DNodo current=head;
         for(int i=0;i<pos;i++)
             current=current.getNext();
         return current;
     }
-    
-    
     //añadir elemento en la parte frontal de la lista
     public void addFirst(int data){
         DNodo newNodo=new DNodo(data);
@@ -25,6 +24,7 @@ public class DoubleLinkedList {
         }
         lenght++;
     }
+    //añadir elemento en la parte final de la lista
     public void addLast(int data){
         DNodo newNodo=new DNodo(data);
         if(ultimo==null){
@@ -37,6 +37,7 @@ public class DoubleLinkedList {
         }
         lenght++;
     }
+    //elimina dato de la lista si exite
     public void remove(int data){
         DNodo current=head;
         //buscando el elemento a eliminar
@@ -60,18 +61,20 @@ public class DoubleLinkedList {
             lenght--;            
         }
     }
+    //borra la lista por completo
     public void clear(){
         head=null;
         ultimo=null;
         lenght=0;
     }
+    //pregunta si la lista esta vacia
     public boolean isEmpty(){
         return(lenght==0);
     }
     public int size(){
         return lenght;
     }
-    
+    //ploeto de la lista completa
     @Override
     public String toString() {
         StringBuilder str=new StringBuilder();
