@@ -14,19 +14,21 @@ public class OSimpleLinkedList {
         head=newNodo;//el head ahora apunta al nuevo nodo
         lenght++;//se incrementa el contador de nodos de la lista 
     }
+    //adiciona nodo al final de la lista
     public void addLast(Object data){
-        ONodo newNodo=new ONodo(data);
-        if(head==null){
-            head=newNodo;
-            lenght++;
-            return;
+        ONodo newNodo=new ONodo(data);//se crea el nuevo nodo, indicado el valor
+        if(head==null){//pregunta si el puntero cabezera apunta a null
+            head=newNodo;//el puntero heap se actualiza a newNodo
+            lenght++;//se incremente el contador de la lista
+            return;//sale del programa
         }
-        ONodo current=head;
-        while(current.getNext()!=null)
-            current=current.getNext();
-        current.setNext(newNodo);
-        lenght++;        
+        ONodo current=head;//el puntero current se actualiza con heap
+        while(current.getNext()!=null)//mientras puntero next de current sea diferente de null entra al while
+            current=current.getNext();//actualiza el puntero current con current.getNext
+        current.setNext(newNodo);//actualiza el puntero current.setNext con el puntero newNodo.
+        lenght++;//se incremente el contador de la lista        
     }
+    //remueve nodo d
     public void remove(Object data){
         if(head==null)
             return;
