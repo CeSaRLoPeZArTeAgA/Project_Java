@@ -1,11 +1,6 @@
-
 package uni.aed.IntBig;
-import java.util.HashSet;
-import java.util.Set;
-
 public class EnteroMuyGrande {
     /////////  PASO 1: IMPLEM  CONSTRUCTORES Y METODO aString
-    
     private static final char MENOS='-';
     private Nodo cabeza;
     private byte signo;
@@ -14,13 +9,11 @@ public class EnteroMuyGrande {
         Nodo bloque=new Nodo();
         cabeza=bloque;
     }
-    
     public EnteroMuyGrande(long valor){
         this(""+valor);
         //Nodo bloque=new Nodo(valor);
         //cabeza=bloque;
     }
-    
     public EnteroMuyGrande(String valor) {
         valor.trim();//elimina espacios en blanco al inicio y final de la cadena
         signo=+1;
@@ -62,7 +55,6 @@ public class EnteroMuyGrande {
         }
         return strBuf.toString();
     }
-    
     //aString que regresa la representacion en cadena de un objeto
     public String aString(){
         StringBuffer strBuf=new StringBuffer("");
@@ -80,7 +72,6 @@ public class EnteroMuyGrande {
         }
         return strBuf.toString();
     }
-    
     @Override
     public String toString() {
         // Sobrescribe toString() para devolver el valor del número como cadena
@@ -174,8 +165,7 @@ public class EnteroMuyGrande {
     
     private EnteroMuyGrande restaPos(EnteroMuyGrande num){
         Nodo p, q, r, t;
-        boolean esNegativo = false;
-        
+        boolean esNegativo = false; 
         if(this.comparaA(num) >= 0){
             p = this.cabeza;
             q = num.cabeza;
@@ -191,7 +181,6 @@ public class EnteroMuyGrande {
             r.setSiguiente(new Nodo());
             r = r.getSiguiente();
             minuendo = (short) (p.getValor() - prestamo);
-            
             if(minuendo < q.getValor()){
                 r.setValor((short) (Nodo.getVALOR_MAX() + minuendo - q.getValor()))  ;
                 prestamo = 1;
@@ -202,7 +191,6 @@ public class EnteroMuyGrande {
             p = p.getSiguiente();
             q = q.getSiguiente();
         }
-        
         p = (p == null) ? q : p;
         while(p != null){
             r.setSiguiente(new Nodo()) ;
@@ -239,8 +227,7 @@ public class EnteroMuyGrande {
         return this;
     }
     
-    //////// PASO 4: IMPLEMENTACION DE SUMA Y RESTA COMPLETAS
-    
+    //////// PASO 4: IMPLEMENTACION DE SUMA Y RESTA COMPLETAS  
     //connstructor nuevo para parametro EnteroMuyGrande
     public EnteroMuyGrande(EnteroMuyGrande num){
         this.signo=num.signo;
@@ -266,13 +253,11 @@ public class EnteroMuyGrande {
         }
         if(L.esNegativo() && R.esPositivo()){
            return R.restaPos(L.negativo());
-        }
-        //ambos negativos
-        return L.negativo().sumaPos(R.negativo()).negativo();
+        } 
+        return L.negativo().sumaPos(R.negativo()).negativo(); //ambos negativos
     }
     //metodo de resta generalizada
-    public EnteroMuyGrande resta(EnteroMuyGrande num){
-        
+    public EnteroMuyGrande resta(EnteroMuyGrande num){     
         EnteroMuyGrande L=new EnteroMuyGrande(this);
         EnteroMuyGrande R=new EnteroMuyGrande(num);
         if(L.esPositivo() && R.esPositivo()){
@@ -284,49 +269,25 @@ public class EnteroMuyGrande {
         if(L.esNegativo() && R.esPositivo()){
            return L.negativo().sumaPos(R).negativo();
         }
-        //ambos negativos
-        return R.negativo().restaPos(L.negativo());
+        return R.negativo().restaPos(L.negativo());//ambos negativos
     }
     
     //////// PASO 5: IMPLEMENTACION DE MULTIPLICACION
-    
-//    public EnteroMuyGrande multiplica(EnteroMuyGrande num){
-//        EnteroMuyGrande L=new EnteroMuyGrande(this);
-//        EnteroMuyGrande R=new EnteroMuyGrande(num);
-//        if(L.esPositivo() && R.esPositivo()){
-//           if(L.esPositivo()){
-//               while(){
-//                   R.suma(R);
-//                   
-//               }
-//           } else{
-//               
-//               
-//           }
-//            
-//           return L.sumaPos(R);
-//        }
-//        
-//    }
-    
-public EnteroMuyGrande multiplica(EnteroMuyGrande num) {
+   public EnteroMuyGrande multiplica(EnteroMuyGrande num) {
     EnteroMuyGrande resultado = new EnteroMuyGrande(); // Producto final inicializado a 0
     Nodo p = this.cabeza;
     int posicionP = 0; // Posición para manejar la multiplicación bloque a bloque
-
     // Recorremos cada bloque de "this"
     while (p != null) {
         EnteroMuyGrande parcial = new EnteroMuyGrande(); // Producto parcial para cada iteración
         Nodo q = num.cabeza;
         short acarreo = 0;
         Nodo r = parcial.cabeza;
-
         // Añadimos ceros de desplazamiento inicial en cada iteración
         for (int i = 0; i < posicionP; i++) {
             r.setSiguiente(new Nodo((short) 0)); // Desplazar el parcial agregando ceros al principio
             r = r.getSiguiente();
         }
-
         // Multiplicamos cada bloque de "this" por cada bloque de "num"
         while (q != null) {
             int prod = p.getValor() * q.getValor() + acarreo + r.getValor();
@@ -339,23 +300,19 @@ public EnteroMuyGrande multiplica(EnteroMuyGrande num) {
             r = r.getSiguiente();
             q = q.getSiguiente();
         }
-
         // Añadimos el acarreo restante si lo hay
         if (acarreo > 0) {
             r.setValor(acarreo);
         }
-
-        // Sumar el resultado parcial al producto acumulado
+    // Sumar el resultado parcial al producto acumulados
         resultado = resultado.suma(parcial);
 
         // Avanzar al siguiente bloque de "this"
         p = p.getSiguiente();
         posicionP++; // Incrementar el desplazamiento para la próxima iteración
     }
-
     // Ajustar el signo del producto final
     resultado.signo = (byte) (this.signo * num.signo);
-
     // Eliminar ceros adicionales en caso de que los haya
     return eliminarCerosFinales(resultado);
 }
@@ -364,7 +321,6 @@ public EnteroMuyGrande multiplica(EnteroMuyGrande num) {
 private EnteroMuyGrande eliminarCerosFinales(EnteroMuyGrande num) {
     Nodo actual = num.cabeza;
     Nodo anterior = null;
-
     // Recorremos hasta el final para encontrar los nodos con valor cero al final
     while (actual != null) {
         if (actual.getValor() != 0) {
@@ -372,22 +328,18 @@ private EnteroMuyGrande eliminarCerosFinales(EnteroMuyGrande num) {
         }
         actual = actual.getSiguiente();
     }
-
     // Si hay nodos ceros al final, eliminarlos
     if (anterior != null && anterior.getSiguiente() != null) {
         anterior.setSiguiente(null);  // Cortar todos los nodos después del último valor significativo
     }
-
     return num;
 }
 
  //////// PASO 6: IMPLEMENTACION DE DIVISION
-
 public EnteroMuyGrande divide(EnteroMuyGrande divisor) {
     if (esCero(divisor)) {
         throw new ArithmeticException("División por cero no permitida.");
     }
-
     EnteroMuyGrande cociente = new EnteroMuyGrande(0); // Iniciamos el cociente en 0
     EnteroMuyGrande resto = new EnteroMuyGrande(this);  // Copia del dividendo
 
@@ -396,13 +348,10 @@ public EnteroMuyGrande divide(EnteroMuyGrande divisor) {
         resto = resto.resta(divisor);  // Restamos el divisor del resto
         cociente = cociente.suma(new EnteroMuyGrande(1));  // Incrementamos el cociente
     }
-
     // Ajustamos el signo del cociente según el signo del dividendo y el divisor
     cociente.signo = (byte) (this.signo * divisor.signo);
-
     return eliminarCerosFinales(cociente); // Eliminamos ceros adicionales en el cociente final
 }
-
 // Método para verificar si un EnteroMuyGrande es cero
 private boolean esCero(EnteroMuyGrande num) {
     Nodo actual = num.cabeza;
@@ -413,8 +362,5 @@ private boolean esCero(EnteroMuyGrande num) {
         actual = actual.getSiguiente();
     }
     return true;
-}
-
-
-    
+}   
 }

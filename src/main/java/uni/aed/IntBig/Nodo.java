@@ -4,7 +4,6 @@ public class Nodo {
     private static final short  VALOR_MAX=1000;//intervalo de valores almacenados en un bloque
     private short valor;//varia de 0 a RANGO_VALOR - 1
     private Nodo siguiente;//puntero al nodo siguiente
-
     //constructor con inicializacion de un entero largo
     public Nodo(short valor) {
         this.valor = valor;
