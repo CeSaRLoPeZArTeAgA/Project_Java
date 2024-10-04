@@ -12,13 +12,11 @@ public class Nodo {
     }
     //cosntructor con inicializacion de una cadena
     public Nodo(String str) {
-        this.valor = Short.parseShort(str);
-        this.siguiente=null;
+        this(Short.parseShort(str));
     }
     //constructor sin parametros, inicializa internamente con el numero 0
      public Nodo() {
-        this.valor = Short.parseShort("0");
-        this.siguiente=null;
+        this("0");
     }
      //funcion que devuelve valor de DIGITOS_MAX
     public static short getDIGITOS_MAX() {

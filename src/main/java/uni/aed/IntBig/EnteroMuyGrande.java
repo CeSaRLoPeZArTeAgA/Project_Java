@@ -15,8 +15,9 @@ public class EnteroMuyGrande {
     }
     
     public EnteroMuyGrande(long valor){
-        Nodo bloque=new Nodo(valor);
-        cabeza=bloque;
+        this(""+valor);
+        //Nodo bloque=new Nodo(valor);
+        //cabeza=bloque;
     }
     
     public EnteroMuyGrande(String valor) {
@@ -147,17 +148,82 @@ public class EnteroMuyGrande {
         
         //primero se verifica la magnitud
         if(lengthL==lengthR){
-            result=Lstr.comparaA(Rstr);
+            result=Lstr.compareTo(Rstr);
         }else{
             result=(lengthL<lengthR)?-1:+1;
         }
         
-        
-        
-        
-        
-        return 1;
+        return L.signo*result;
     }
+    
+    public EnteroMuyGrande resta(EnteroMuyGrande num){
+        return this.restaPos(num);
+    }
+    private EnteroMuyGrande extraeCerosPrecedentes(){
+        String numStr = this.toString();
+        String result = extraeCerosPrecedentes(numStr);
+        if(result.equals("0")){
+            return new EnteroMuyGrande(0);
+        }else if (result.length() < numStr.length()){
+            return new EnteroMuyGrande(result);
+        }else{
+            return this;
+        }
+    }
+    
+    private EnteroMuyGrande restaPos(EnteroMuyGrande num){
+        Nodo p, q, r, t;
+        boolean esNegativo = false;
+        
+        if(this.comparaA(num) >= 0){
+            p = this.cabeza;
+            q = num.cabeza;
+        }else{
+            p = num.cabeza;
+            q = this.cabeza;
+            esNegativo = true;
+        }
+        t = new Nodo();
+        r = t;
+        short prestamo = 0, minuendo;
+        while(p != null && q != null){
+            r.setSiguiente(new Nodo());
+            r = r.getSiguiente();
+            minuendo = (short) (p.getValor() - prestamo);
+            
+            if(minuendo < q.getValor()){
+                r.setValor((short) (Nodo.getVALOR_MAX() + minuendo - q.getValor()))  ;
+                prestamo = 1;
+            }else{
+                r.setValor((short) (minuendo -q.getValor()));
+                prestamo = 0;
+            }
+            p = p.getSiguiente();
+            q = q.getSiguiente();
+        }
+        
+        p = (p == null) ? q : p;
+        while(p != null){
+            r.setSiguiente(new Nodo()) ;
+            r = r.getSiguiente();
+            
+            r.setValor((short) (p.getValor() - prestamo));
+            
+            if(r.getValor() < 0){
+                r.setValor((short)(r.getValor()+Nodo.getVALOR_MAX())) ;
+                prestamo = 1;
+            }else{
+                prestamo = 0;
+            }
+            p = p.getSiguiente();
+        }
+        EnteroMuyGrande result = new EnteroMuyGrande(t.getSiguiente());
+        result = result.extraeCerosPrecedentes();
+        if(esNegativo) result.negativo();
+        return result;
+    }
+
+        
     //verifica si el numero es positivo
     private boolean esPositivo(){
         return signo>0;
@@ -167,9 +233,26 @@ public class EnteroMuyGrande {
     private boolean esNegativo(){
         return signo<0;
     }
+    
     private EnteroMuyGrande negativo(){
         signo=(byte) -signo; //el signo - es int asi q se nesecita conversion
         return this;
     }
     
+    //                                 PASO 4: IMPLEMENTACION DE SUMA Y RESTA COMPLETAS
+    
+    public EnteroMuyGrande(EnteroMuyGrande num){
+        this.signo=num.signo;
+        this.cabeza=new Nodo();
+        Nodo p=cabeza;
+        Nodo q=num.cabeza;
+        while(q!=null){
+            p.setSiguiente(new Nodo(q.getValor()));
+            p=p.getSiguiente();
+            q=q.getSiguiente();
+        }
+        this.cabeza=this.cabeza.getSiguiente();//remueve el nodo cabezera ficicio
+    }
+    
+     
 }
